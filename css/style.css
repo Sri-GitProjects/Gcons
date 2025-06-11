@@ -1,4 +1,28 @@
 
+.team {
+    background-color: #f8f9fa; /* Light background */
+    padding: 40px 0;
+}
+.video-item {
+    transition: transform 0.2s; /* Smooth scaling effect */
+}
+.video-item:hover {
+    transform: scale(1.05); /* Scale up on hover */
+}
+.video-item img {
+    border-radius: 10px; /* Rounded corners for images */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+.text-primary {
+    color: #007bff; /* Bootstrap primary color */
+}
+.btn-primary {
+    background-color: #007bff; /* Booststrap button color */
+    border: none; /* Remove default border */
+}
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker on hover */
+}
 /*** Spinner Start ***/
 /*** Spinner ***/
 #spinner {
