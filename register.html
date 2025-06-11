@@ -1,0 +1,718 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Workshop Registration - G Consultancy</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%,  #00D084 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .registration-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #00D084 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .form-header h2 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 2.2rem;
+        }
+
+        .form-header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+
+        .form-body {
+            padding: 40px;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            font-weight: bold;
+            color: #6c757d;
+            position: relative;
+        }
+
+        .step.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .step.completed {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 20px;
+            height: 2px;
+            background: #e9ecef;
+            transform: translateY(-50%);
+        }
+
+        .step.completed:not(:last-child)::after {
+            background: var(--success-color);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .required {
+            color: var(--danger-color);
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+
+        .form-control.is-valid {
+            border-color: var(--success-color);
+        }
+
+        .form-control.is-invalid {
+            border-color: var(--danger-color);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .otp-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+        }
+
+        .otp-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+
+        .timer {
+            text-align: center;
+            color: var(--danger-color);
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, var(--success-color) 0%, #146c43 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .alert {
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-body {
+                padding: 20px;
+            }
+            
+            .form-header {
+                padding: 20px;
+            }
+            
+            .form-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .otp-container {
+                gap: 10px;
+            }
+            
+            .otp-input {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="registration-container">
+            <div class="form-header">
+                <h2> <a href="index.html"><i class="fas fa-graduation-cap me-3" style="color: white;"></i></a>Options Trading Workshop</h2>
+                <p>Register for our exclusive workshop with Mr. Raja Sellamuthu</p>
+            </div>
+
+            <div class="form-body">
+                <!-- Step Indicator -->
+                <div class="step-indicator">
+                    <div class="step active" id="step1">1</div>
+                    <div class="step" id="step2">2</div>
+                    <div class="step" id="step3">3</div>
+                    <div class="step" id="step4">4</div>
+                </div>
+
+                <form id="registrationForm">
+                    <!-- Step 1: Personal Information -->
+                    <div class="form-step active" id="formStep1">
+                        <h4 class="mb-4">Personal Information</h4>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Full Name <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="fullName" required>
+                                    <div class="invalid-feedback">Please enter your full name.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Email Address <span class="required">*</span></label>
+                                    <input type="email" class="form-control" id="email" required>
+                                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Date of Birth <span class="required">*</span></label>
+                                    <input type="date" class="form-control" id="dob" required>
+                                    <div class="invalid-feedback">Please enter your date of birth.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Gender <span class="required">*</span></label>
+                                    <select class="form-control" id="gender" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select your gender.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Address <span class="required">*</span></label>
+                            <textarea class="form-control" id="address" rows="3" required placeholder="Enter your complete address"></textarea>
+                            <div class="invalid-feedback">Please enter your address.</div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(1)">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Mobile Verification -->
+                    <div class="form-step" id="formStep2">
+                        <h4 class="mb-4">Mobile Verification</h4>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Mobile Number <span class="required">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">+91</span>
+                                <input type="tel" class="form-control" id="mobile" pattern="[0-9]{10}" maxlength="10" required>
+                            </div>
+                            <div class="invalid-feedback">Please enter a valid 10-digit mobile number.</div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" id="sendOtpBtn" onclick="sendOTP()">Send OTP</button>
+                        </div>
+
+                        <div id="otpSection" style="display: none;">
+                            <div class="form-group mt-4">
+                                <label class="form-label text-center d-block">Enter OTP sent to your mobile</label>
+                                <div class="otp-container">
+                                    <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 0)">
+                                    <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 1)">
+                                    <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 2)">
+                                    <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 3)">
+                                    <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 4)">
+                                    <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 5)">
+                                </div>
+                                <div class="timer" id="otpTimer"></div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="button" class="btn btn-success me-2" onclick="verifyOTP()">Verify OTP</button>
+                                <button type="button" class="btn btn-link" id="resendOtpBtn" onclick="resendOTP()" disabled>Resend OTP</button>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Previous</button>
+                            <button type="button" class="btn btn-primary" id="nextFromMobile" onclick="nextStep(2)" disabled>Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Aadhaar Verification -->
+                    <div class="form-step" id="formStep3">
+                        <h4 class="mb-4">Aadhaar Verification</h4>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Aadhaar number is required for workshop registration and certificate generation.
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Aadhaar Number <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="aadhaar" pattern="[0-9]{12}" maxlength="12" required placeholder="Enter 12-digit Aadhaar number">
+                            <div class="invalid-feedback">Please enter a valid 12-digit Aadhaar number.</div>
+                            <div class="valid-feedback">Aadhaar number is valid.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Name as per Aadhaar <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="aadhaarName" required placeholder="Enter name exactly as per Aadhaar">
+                            <div class="invalid-feedback">Please enter your name as per Aadhaar.</div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Previous</button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Workshop Selection & Confirmation -->
+                    <div class="form-step" id="formStep4">
+                        <h4 class="mb-4">Workshop Selection</h4>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Select Workshop <span class="required">*</span></label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card border-primary">
+                                        <div class="card-body">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="workshop" id="workshop1" value="1day" required>
+                                                <label class="form-check-label" for="workshop1">
+                                                    <h5>1-Day Workshop</h5>
+                                                    <p class="mb-1"><strong>₹2,999</strong></p>
+                                                    <small class="text-muted">Basic Options Trading Strategies</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-primary">
+                                        <div class="card-body">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="workshop" id="workshop2" value="2day" required>
+                                                <label class="form-check-label" for="workshop2">
+                                                    <h5>2-Day Workshop</h5>
+                                                    <p class="mb-1"><strong>₹4,999</strong></p>
+                                                    <small class="text-muted">Advanced Options Trading & Risk Management</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Experience Level <span class="required">*</span></label>
+                            <select class="form-control" id="experience" required>
+                                <option value="">Select Experience Level</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">How did you hear about us?</label>
+                            <select class="form-control" id="source">
+                                <option value="">Select Source</option>
+                                <option value="youtube">YouTube</option>
+                                <option value="linkedin">LinkedIn</option>
+                                <option value="friend">Friend/Referral</option>
+                                <option value="social">Social Media</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the <a href="#" target="_blank">Terms & Conditions</a> and <a href="#" target="_blank">Privacy Policy</a> <span class="required">*</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(4)">Previous</button>
+                            <button type="submit" class="btn btn-primary">Register Now</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Success Message -->
+                <div id="successMessage" style="display: none;">
+                    <div class="success-message">
+                        <i class="fas fa-check-circle fa-3x mb-3"></i>
+                        <h3>Registration Successful!</h3>
+                        <p>Thank you for registering for the Options Trading Workshop. You will receive a confirmation email shortly with payment details and workshop information.</p>
+                        <p><strong>Registration ID:</strong> <span id="registrationId"></span></p>
+                        <button type="button" class="btn btn-light mt-3" onclick="location.reload()">Register Another</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentStep = 1;
+        let otpTimer;
+        let otpTimeLeft = 180; // 3 minutes
+        let mobileVerified = false;
+
+        function nextStep(step) {
+            if (!validateStep(step)) return;
+
+            document.getElementById(`formStep${step}`).classList.remove('active');
+            document.getElementById(`step${step}`).classList.remove('active');
+            document.getElementById(`step${step}`).classList.add('completed');
+
+            currentStep = step + 1;
+            document.getElementById(`formStep${currentStep}`).classList.add('active');
+            document.getElementById(`step${currentStep}`).classList.add('active');
+        }
+
+        function prevStep(step) {
+            document.getElementById(`formStep${step}`).classList.remove('active');
+            document.getElementById(`step${step}`).classList.remove('active');
+
+            currentStep = step - 1;
+            document.getElementById(`formStep${currentStep}`).classList.add('active');
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            
+            if (currentStep < step) {
+                document.getElementById(`step${step}`).classList.remove('completed');
+            }
+        }
+
+        function validateStep(step) {
+            const currentStepElement = document.getElementById(`formStep${step}`);
+            const inputs = currentStepElement.querySelectorAll('input[required], select[required], textarea[required]');
+            let valid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.classList.add('is-invalid');
+                    valid = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                }
+            });
+
+            // Special validation for step 2 (mobile verification)
+            if (step === 2 && !mobileVerified) {
+                alert('Please verify your mobile number before proceeding.');
+                return false;
+            }
+
+            // Aadhaar validation for step 3
+            if (step === 3) {
+                const aadhaar = document.getElementById('aadhaar').value;
+                if (!validateAadhaar(aadhaar)) {
+                    document.getElementById('aadhaar').classList.add('is-invalid');
+                    valid = false;
+                }
+            }
+
+            return valid;
+        }
+
+        function sendOTP() {
+            const mobile = document.getElementById('mobile').value;
+            if (!/^[0-9]{10}$/.test(mobile)) {
+                document.getElementById('mobile').classList.add('is-invalid');
+                return;
+            }
+
+            document.getElementById('mobile').classList.remove('is-invalid');
+            document.getElementById('mobile').classList.add('is-valid');
+            
+            // Simulate OTP sending
+            document.getElementById('otpSection').style.display = 'block';
+            document.getElementById('sendOtpBtn').disabled = true;
+            
+            startOtpTimer();
+            
+            // Show success message
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-success mt-3';
+            alert.innerHTML = `<i class="fas fa-check-circle me-2"></i>OTP sent to +91${mobile}`;
+            document.getElementById('sendOtpBtn').parentNode.appendChild(alert);
+            
+            setTimeout(() => alert.remove(), 5000);
+        }
+
+        function startOtpTimer() {
+            otpTimeLeft = 180;
+            const timerElement = document.getElementById('otpTimer');
+            
+            otpTimer = setInterval(() => {
+                const minutes = Math.floor(otpTimeLeft / 60);
+                const seconds = otpTimeLeft % 60;
+                timerElement.textContent = `Time remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (otpTimeLeft <= 0) {
+                    clearInterval(otpTimer);
+                    timerElement.textContent = 'OTP expired. Please request a new one.';
+                    document.getElementById('resendOtpBtn').disabled = false;
+                }
+                
+                otpTimeLeft--;
+            }, 1000);
+        }
+
+        function moveToNext(current, index) {
+            if (current.value.length === 1 && index < 5) {
+                const nextInput = current.parentNode.children[index + 1];
+                if (nextInput) nextInput.focus();
+            }
+        }
+
+        function verifyOTP() {
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+            
+            if (otp.length !== 6) {
+                alert('Please enter complete OTP');
+                return;
+            }
+
+            // Simulate OTP verification (in real implementation, this would be a server call)
+            if (otp === '123456' || true) { // Always true for demo
+                mobileVerified = true;
+                clearInterval(otpTimer);
+                
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-success mt-3';
+                alert.innerHTML = '<i class="fas fa-check-circle me-2"></i>Mobile number verified successfully!';
+                document.getElementById('otpSection').appendChild(alert);
+                
+                document.getElementById('nextFromMobile').disabled = false;
+                otpInputs.forEach(input => {
+                    input.classList.add('is-valid');
+                    input.disabled = true;
+                });
+            } else {
+                alert('Invalid OTP. Please try again.');
+                otpInputs.forEach(input => {
+                    input.value = '';
+                    input.classList.add('is-invalid');
+                });
+                otpInputs[0].focus();
+            }
+        }
+
+        function resendOTP() {
+            document.querySelectorAll('.otp-input').forEach(input => {
+                input.value = '';
+                input.classList.remove('is-valid', 'is-invalid');
+                input.disabled = false;
+            });
+            
+            document.getElementById('resendOtpBtn').disabled = true;
+            startOtpTimer();
+            
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-info mt-3';
+            alert.innerHTML = '<i class="fas fa-info-circle me-2"></i>New OTP sent to your mobile number';
+            document.getElementById('otpSection').appendChild(alert);
+            
+            setTimeout(() => alert.remove(), 5000);
+        }
+
+        function validateAadhaar(aadhaar) {
+            // Basic Aadhaar validation (12 digits)
+            if (!/^[0-9]{12}$/.test(aadhaar)) {
+                return false;
+            }
+            
+            // Luhn algorithm for Aadhaar validation
+            let sum = 0;
+            for (let i = 0; i < 11; i++) {
+                sum += parseInt(aadhaar[i]) * Math.pow(2, i);
+            }
+            const checksum = sum % 11;
+            const lastDigit = parseInt(aadhaar[11]);
+            
+            return (checksum < 2 && lastDigit === checksum) || (checksum >= 2 && lastDigit === 11 - checksum);
+        }
+
+        document.getElementById('aadhaar').addEventListener('input', function() {
+            const aadhaar = this.value;
+            if (aadhaar.length === 12) {
+                if (validateAadhaar(aadhaar)) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                }
+            }
+        });
+
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateStep(4)) return;
+
+            // Simulate form submission
+            const formData = new FormData(this);
+            const registrationId = 'GC' + Date.now().toString().slice(-6);
+            
+            document.getElementById('registrationId').textContent = registrationId;
+            document.getElementById('registrationForm').style.display = 'none';
+            document.querySelector('.step-indicator').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // In real implementation, send data to server
+            console.log('Registration data:', Object.fromEntries(formData));
+        });
+
+        // Auto-format mobile number
+        document.getElementById('mobile').addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').slice(0, 10);
+        });
+
+        // Auto-format Aadhaar number
+        document.getElementById('aadhaar').addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').slice(0, 12);
+        });
+    </script>
+</body>
+</html>
